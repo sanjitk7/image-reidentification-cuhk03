@@ -7,8 +7,8 @@ import sys
 
 def prepare_data(path):
     f = h5py.File('%s/cuhk-03.mat' % path)
-    labeled = [f['labeled'][0][i] for i in range(len(f['labeled'][0]))]
-    labeled = [f[labeled[0]][i] for i in range(len(f[labeled[0]]))]
+    labeled = [f['labeled'][0][i] for i in range(len(f['labeled'][0]))] # Get all labelled pictures
+    labeled = [f[labeled[0]][i] for i in range(len(f[labeled[0]]))] # Separate Pictures
     detected = [f['detected'][0][i] for i in range(len(f['detected'][0]))]
     detected = [f[detected[0]][i] for i in range(len(f[detected[0]]))]
     datasets = [['labeled', labeled], ['detected', detected]]
@@ -78,15 +78,7 @@ def read_data(path, set, num_id, image_width, image_height, batch_size):
             batch_images.append(images)
         labels.append([1., 0.])
         labels.append([0., 1.])
-
-    '''
-    for pair in batch_images:
-        for p in pair:
-            cv2.imshow('img', p)
-            key = cv2.waitKey(0)
-            if key == 1048603:
-                exit()
-    '''
+        
     return np.transpose(batch_images, (1, 0, 2, 3, 4)), np.array(labels)
 
 if __name__ == '__main__':

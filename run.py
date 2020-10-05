@@ -66,13 +66,13 @@ def network(images1, images2, weight_decay):
         pool2_2 = tf.layers.max_pooling2d(conv2_2, [2, 2], [2, 2], name='pool2_2')
 
         # Cross-Input Neighborhood Differences
-        trans = tf.transpose(pool1_2, [0, 3, 1, 2])
+        trans = tf.transpose(pool1_2, [0, 3, 1, 2]) # First image's feature map after convolutions
         shape = trans.get_shape().as_list()
         m1s = tf.ones([shape[0], shape[1], shape[2], shape[3], 5, 5])
         reshape = tf.reshape(trans, [shape[0], shape[1], shape[2], shape[3], 1, 1])
         f = tf.multiply(reshape, m1s)
 
-        trans = tf.transpose(pool2_2, [0, 3, 1, 2])
+        trans = tf.transpose(pool2_2, [0, 3, 1, 2]) # First image's feature map after convolutions
         reshape = tf.reshape(trans, [1, shape[0], shape[1], shape[2], shape[3]])
         g = []
         pad = tf.pad(reshape, [[0, 0], [0, 0], [0, 0], [2, 2], [2, 2]])
@@ -101,7 +101,7 @@ def network(images1, images2, weight_decay):
         m2 = tf.layers.conv2d(l2, 25, [3, 3], activation=tf.nn.relu,
             kernel_regularizer=tf.contrib.layers.l2_regularizer(weight_decay), name='m2')
         pool_m2 = tf.layers.max_pooling2d(m2, [2, 2], [2, 2], padding='same', name='pool_m2')
-
+``
         # Higher-Order Relationships
         concat = tf.concat([pool_m1, pool_m2], axis=3)
         reshape = tf.reshape(concat, [FLAGS.batch_size, -1])
@@ -176,17 +176,7 @@ def main(argv=None):
                         total += 1
             print('Accuracy: %f' % (total / (FLAGS.batch_size * 10)))
 
-            '''
-            for i in xrange(len(prediction)):
-                print('Prediction: %s, Label: %s' % (prediction[i] == 0, labels[i] == 0))
-                image1 = cv2.cvtColor(batch_images[0][i], cv2.COLOR_RGB2BGR)
-                image2 = cv2.cvtColor(batch_images[1][i], cv2.COLOR_RGB2BGR)
-                image = np.concatenate((image1, image2), axis=1)
-                cv2.imshow('image', image)
-                key = cv2.waitKey(0)
-                if key == 1048603:  # ESC key
-                    break
-            '''
+
         elif FLAGS.mode == 'test':
             image1 = cv2.imread(FLAGS.image1)
             image1 = cv2.resize(image1, (IMAGE_WIDTH, IMAGE_HEIGHT))

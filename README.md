@@ -1,5 +1,7 @@
 # Image Re-identification using Deep Neural Network with CUHK03 Dataset
 
+*J-Component Project - Image Processing - Fall 2020 - 18BCE0715*
+
 ## Dependencies
 * Mac OSX 10.15.6
 * Python 3.6.4
@@ -18,8 +20,20 @@
 * Werkzeug1.0.1
 * zipp3.1.0
 
+## Papers referred
+
+Chekc [review-sheet](./ReviewSheet_PDF.pdf) PDF
+
 ## Prepare dataset
 Original Dataset Link - [Click Here](http://www.ee.cuhk.edu.hk/~xgwang/CUHK_identification.html)
+
+## Architecture
+
+![arch](img/person-reid-arch-ppt.png)
+
+## Project Review
+
+Find Documents and PPTs in respective folders
 
 ## Training and Validation
 
@@ -31,6 +45,9 @@ Validation Accuracy reached during training is 50%.
 
 ### Training a sample of 21 epochs with 0.08 learning rate
 
+```
+python cuhk03_dataset.py ../Person-Re-identification/Dataset/cuhk03_release
+```
 ![train](./img/train.png)
 
 ### Validation with same training sample
